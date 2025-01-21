@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <style>
+        .pencil-font {
+            font-family: 'Shadows Into Light', cursive;
+        }
+    </style>
+</head>
+<body class="font-roboto bg-gray-50 text-gray-800">
+    <!-- Navigation Bar -->
+    <nav class="bg-teal-600 p-4 text-white shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold pencil-font">Travel App</a>
+            <ul class="flex space-x-4">
+                <li><a href="#" class="hover:underline" aria-label="Home">Home</a></li>
+                <li><a href="#" class="hover:underline" aria-label="Destinations">Destinations</a></li>
+                <li><a href="#" class="hover:underline" aria-label="Contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto mt-8 p-4 bg-white shadow-md rounded-lg">
+        <!-- Search Container -->
+        <section id="searchContainer" class="bg-gray-100 p-4 rounded-md mb-6">
+            <form id="searchForm" class="flex space-x-2" aria-label="Search Destination">
+                <input 
+                    type="text" 
+                    id="searchLocation" 
+                    class="w-full p-2 border border-gray-300 rounded-md" 
+                    placeholder="Enter location" 
+                    aria-label="Search Location"
+                >
+                <button type="submit" class="bg-teal-600 text-white px-4 py-2 rounded-md flex items-center space-x-1">
+                    <i class="fas fa-search"></i>
+                    <span>Search</span>
+                </button>
+            </form>
+        </section>
+
+        <!-- Accommodation Buttons -->
+        <section id="accommodationButtons" class="hidden flex flex-wrap gap-4 mb-6">
+            <button 
+                type="button" 
+                class="bg-green-500 text-white px-4 py-2 rounded-md pencil-font" 
+                onclick="findHotels()" 
+                aria-label="Find Hotels"
+            >
+                <i class="fas fa-hotel"></i> Find Hotels
+            </button>
+            <button 
+                type="button" 
+                class="bg-yellow-500 text-white px-4 py-2 rounded-md pencil-font" 
+                onclick="findHomestays()" 
+                aria-label="Find Homestays"
+            >
+                <i class="fas fa-home"></i> Find Homestays
+            </button>
+            <button 
+                type="button" 
+                class="bg-red-500 text-white px-4 py-2 rounded-md pencil-font" 
+                onclick="findHostels()" 
+                aria-label="Find Hostels"
+            >
+                <i class="fas fa-bed"></i> Find Hostels
+            </button>
+        </section>
+
+        <!-- Plan Trip Buttons -->
+        <div class="flex space-x-4 mb-6">
+            <button id="planTripButton" class="bg-teal-600 text-white px-4 py-2 rounded-md pencil-font">
+                <i class="fas fa-plane"></i> Plan Your Trip
+            </button>
+            <button id="showSearchButton" class="bg-gray-600 text-white px-4 py-2 rounded-md hidden">
+                <i class="fas fa-search"></i> Show Search
+            </button>
+        </div>
+
+        <!-- Trip Form -->
+        <section id="tripFormContainer" class="hidden bg-gray-100 p-4 rounded-md mb-6">
+            <form id="travelForm" class="space-y-4" aria-label="Trip Planning Form">
+                <div>
+                    <label for="startDestination" class="block text-lg font-bold mb-2 pencil-font">Start Destination</label>
+                    <input 
+                        type="text" 
+                        id="startDestination" 
+                        class="w-full p-2 border border-gray-300 rounded-md" 
+                        placeholder="Enter start destination" 
+                        aria-label="Start Destination"
+                    >
+                </div>
+                <div>
+                    <label for="endDestination" class="block text-lg font-bold mb-2 pencil-font">End Destination</label>
+                    <input 
+                        type="text" 
+                        id="endDestination" 
+                        class="w-full p-2 border border-gray-300 rounded-md" 
+                        placeholder="Enter end destination" 
+                        aria-label="End Destination"
+                    >
+                </div>
+                <button type="submit" class="bg-teal-600 text-white px-4 py-2 rounded-md pencil-font">
+                    <i class="fas fa-search"></i> Find Routes
+                </button>
+            </form>
+        </section>
+
+        <!-- Suggested Routes -->
+        <section>
+            <h2 class="text-2xl font-bold mb-4 pencil-font">Suggested Routes</h2>
+            <ul id="routesList" class="list-disc pl-5">
+                <li>Route 1: Example route details.</li>
+                <li>Route 2: Example route details.</li>
+                <li>Route 3: Example route details.</li>
+                <li>Route 4: Example route details.</li>
+                <li>Route 5: Example route details.</li>
+            </ul>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-teal-600 text-white p-4 mt-8 text-center">
+        &copy; 2025 Travel App. All rights reserved.
+    </footer>
+
+    <script>
+        // JavaScript: Optimize reusability and clean up event listeners
+        const toggleVisibility = (id, show) => {
+            const element = document.getElementById(id);
+            show ? element.classList.remove('hidden') : element.classList.add('hidden');
+        };
+
+        document.getElementById('searchForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            toggleVisibility('accommodationButtons', true);
+        });
+
+        document.getElementById('planTripButton').addEventListener('click', () => {
+            toggleVisibility('searchContainer', false);
+            toggleVisibility('tripFormContainer', true);
+            toggleVisibility('showSearchButton', true);
+        });
+
+        document.getElementById('showSearchButton').addEventListener('click', () => {
+            toggleVisibility('searchContainer', true);
+            toggleVisibility('tripFormContainer', false);
+            toggleVisibility('showSearchButton', false);
+        });
+
+        document.getElementById('travelForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const start = document.getElementById('startDestination').value;
+            const end = document.getElementById('endDestination').value;
+            window.open(`https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(start)}&destination=${encodeURIComponent(end)}`, '_blank');
+        });
+
+        const openGoogleMaps = (type) => {
+            const destination = document.getElementById('searchLocation').value;
+            window.open(`https://www.google.com/maps/search/${type}+in+${encodeURIComponent(destination)}`, '_blank');
+        };
+
+        const findHotels = () => openGoogleMaps('Hotels');
+        const findHomestays = () => openGoogleMaps('Homestays');
+        const findHostels = () => openGoogleMaps('Hostels');
+    </script>
+</body>
+</html>
